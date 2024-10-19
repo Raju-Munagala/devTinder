@@ -3,8 +3,17 @@ const express = require("express");
 const app = express();
 
 
-app.use("/users", (req,res)=>{
-    res.send("it's users page");
+app.get("/users/:userid/:name/:password", (req,res)=>{
+    console.log(req.params);
+    res.send("get request");
+});
+
+app.post("/users", (req,res)=>{
+    res.send("post request");
+});
+
+app.delete("/users", (req,res)=>{
+    res.send("delete method");
 });
 
 app.use("/payments", (req,res)=>{
@@ -15,9 +24,6 @@ app.use("/admin", (req,res)=>{
     res.send("it's admins page");
 });
 
-app.use("/", (req,res)=>{
-    res.send("it's dashboard page");
-});
 
 
 app.listen(3333, ()=>{
