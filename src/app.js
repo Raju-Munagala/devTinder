@@ -3,10 +3,20 @@ const express = require("express");
 const app = express();
 
 
-app.get("/users/:userid/:name/:password", (req,res)=>{
-    console.log(req.params);
-    res.send("get request");
-});
+app.get("/users", (req,res,next)=>{
+    console.log("1st response running");
+    next();
+    //res.send("get request");
+    },
+    (req,res,next)=>{
+        console.log("2nd route running");
+        //res.send("2nd response");
+        next();
+    },
+    (req,res,next)=>{
+        console.log("3rd response running");
+        res.send("3rd response");
+    });
 
 app.post("/users", (req,res)=>{
     res.send("post request");
