@@ -1,6 +1,6 @@
 const userAuth = (req,res,next)=>{
     const token = "xyz";
-    const userAuth = token==="xyze";
+    const userAuth = token==="xyz";
     if(!userAuth){
         res.status(401).send("user not authorized");
     }
