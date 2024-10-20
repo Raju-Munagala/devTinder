@@ -2,17 +2,15 @@ const express = require("express");
 
 const app = express();
 
+const {userAuth,adminAuth} = require("./middleware/auth.js");
 
-app.get("/users", (req,res,next)=>{
-    console.log("1st response running");
-    next();
-    //res.send("get request");
-    },
-    (req,res,next)=>{
-        console.log("2nd route running");
-        //res.send("2nd response");
-        next();
-    },
+app.use("/admin", adminAuth);
+
+app.use("/admin/alldata", (req,res,next)=>{
+    res.send("it's admins all data");
+});
+
+app.get("/users", userAuth,
     (req,res,next)=>{
         console.log("3rd response running");
         res.send("3rd response");
@@ -29,12 +27,6 @@ app.delete("/users", (req,res)=>{
 app.use("/payments", (req,res)=>{
     res.send("it's payment section");
 });
-
-app.use("/admin", (req,res)=>{
-    res.send("it's admins page");
-});
-
-
 
 app.listen(3333, ()=>{
     console.log("server is successfully listening...");
