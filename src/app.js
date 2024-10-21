@@ -12,7 +12,7 @@ app.post("/signup",async (req,res)=>{
         res.send("user added successfullt");
     }
     catch(error){
-        res.status(500).send("something went wrong");
+        res.status(500).send("something went wrong"+error.message);
     }
     
 });
@@ -52,7 +52,7 @@ app.patch("/user",async (req,res)=>{
     const userId = req.body.userId;
     const user = req.body;
     try{
-        const updatedUser = await User.findByIdAndUpdate(userId,user); 
+        const updatedUser = await User.findByIdAndUpdate(userId,user,{runValidators:true}); 
         res.send("user updated successfully");
     }catch(error){
         res.status(400).send("something went wrong");
