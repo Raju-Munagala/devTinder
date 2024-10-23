@@ -4,6 +4,19 @@ const userSignUpValidation = (req)=>{
     if(!firstName || !lastName){
         throw new Error("enter valid user name");
     }
-}
+};
 
-module.exports = userSignUpValidation;
+const validateUserEditData = (req)=>{
+    const updatableData = [
+        "firstName",
+        "lastName",
+        "age",
+        "gender",
+        "skills",
+        "about"    
+    ];
+    const isValidData = Object.keys(req.body).every(key=>updatableData.includes(key));
+    return isValidData;
+};
+
+module.exports = {userSignUpValidation,validateUserEditData};
