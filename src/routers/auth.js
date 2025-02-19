@@ -30,19 +30,19 @@ authRouter.post("/login",async (req,res)=>{
     const {emailId, password} = req.body;
     try{
         const user = await User.findOne({emailId});
-        const isPasswordValid = await bcrypt.compare(password, user.password);
         if(!user){
             throw new Error("invalid credentials")
         }
+        const isPasswordValid = await bcrypt.compare(password, user.password);
         if(!isPasswordValid){
             throw new Error("invalid credentials");
         }
         else{
             const token = await user.getJWT();
             res.cookie("token",token,{expires:
-                new Date(Date.now()+8*3600000)
+                new Date(Date.now()+5*86400000)
             });
-            res.send("login successful");
+            res.send(user);
         }
     }catch(error){
         res.status(400).send("error: "+error.message);

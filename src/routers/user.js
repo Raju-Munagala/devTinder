@@ -12,7 +12,7 @@ userRouter.get("/user/requests",userAuth,async (req,res)=>{
         const requestsRecieved = await ConnectionRequest.find({
             toUserId:loggedInUser._id,
             connectionStatus: "interested"
-        }).populate("fromUserId","firstName lastName");
+        }).populate("fromUserId","firstName lastName about");
         console.log(requestsRecieved);
         if(requestsRecieved.length===0){
             return res.send("no connection requests recieved");
@@ -35,7 +35,7 @@ userRouter.get("/user/connections",userAuth,async (req,res)=>{
                 {fromUserId:loggedInUser._id,connectionStatus:"accepted"},
                 {toUserId:loggedInUser._id,connectionStatus:"accepted"}
             ]
-        }).populate("fromUserId","firstName lastName").populate("toUserId","firstName lastName");
+        }).populate("fromUserId","firstName lastName about").populate("toUserId","firstName lastName about");
         
         const data = userConnections.map(connection=>{
             if(connection.fromUserId.toString()===loggedInUser._id.toString()){
@@ -84,11 +84,9 @@ userRouter.get("/user/feed",userAuth, async (req,res)=>{
                 {_id: {$ne: loggedInUser._id}}
             ]
             
-        }).select("firstName lastName").skip(skip).limit(limit);
+        }).select("firstName lastName about").skip(skip).limit(limit);
 
-        if(feedUsers.length===0){
-            throw new Error("no feed available");
-        }
+
 
         res.send(feedUsers);
 
